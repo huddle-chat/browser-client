@@ -1,25 +1,11 @@
+import { CurrentUser } from "@/@types/user";
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 interface RegisterResponse {
   success: boolean;
   message: string;
   data: null;
-}
-
-interface CurrentUser {
-  avatar: string;
-  createdAt: string;
-  email: string;
-  isVerified: boolean;
-  userId: string;
-  onlineStatus: number;
-  username: string;
-}
-
-interface LoginResponse {
-  data: CurrentUser;
-  message: string;
-  success: boolean;
 }
 
 export async function registerUser(
@@ -49,6 +35,15 @@ export async function registerUser(
   return data;
 }
 
+interface LoginResponse {
+  data: {
+    user: CurrentUser;
+    token: string;
+  };
+  message: string;
+  success: boolean;
+}
+
 export async function loginUser(
   email: string,
   password: string
@@ -71,5 +66,32 @@ export async function loginUser(
 
   const data = await res.json();
   console.log("data", data);
+  return data;
+}
+
+interface FetchMeResponse {
+  data: {
+    user: CurrentUser;
+  };
+  message: string;
+  success: boolean;
+}
+
+export async function fetchMe(token: string): Promise<FetchMeResponse> {
+  const res = await fetch(`${BASE_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status !== 200) {
+    const error = await res.json();
+    console.log(error);
+    throw new Error(error.message);
+  }
+
+  const data = await res.json();
   return data;
 }

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "@/context/auth";
 import { loginUser } from "@/api/auth";
+import { useRouter } from "next/router";
 
 interface LoginFormState {
   email: string;
@@ -7,14 +9,17 @@ interface LoginFormState {
 }
 
 const Login = () => {
+  const { updateCurrentUser } = useContext(AuthContext);
+
   const [formState, setFormState] = useState<LoginFormState>({
     email: "",
     password: "",
   });
 
   const [loading, setLoading] = useState<boolean>(false);
-
   const [error, setError] = useState<string>("");
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -26,16 +31,20 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const data = await loginUser(formState.email, formState.password);
-      console.log(data);
+      const { data } = await loginUser(formState.email, formState.password);
       setLoading(false);
-      // TODO
-      // Add context to hold the current user information
+
+      updateCurrentUser(data.user);
+      localStorage.setItem("access_token", data.token);
+
+      router.push("/");
     } catch (error: any) {
       setLoading(false);
       setError(error.message);
     }
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div>
