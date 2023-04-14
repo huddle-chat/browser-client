@@ -1,35 +1,54 @@
 import { useState } from "react";
 import { registerUser } from "@/api/auth";
+import React from "react";
+
+interface RegisterFormState {
+  username: string;
+  password: string;
+  email: string;
+  confirmPassword: string;
+}
 
 const Register = () => {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<RegisterFormState>({
     username: "",
     password: "",
     email: "",
     confirmPassword: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    const data = await registerUser(
-      formState.username,
-      formState.email,
-      formState.password
-    );
-    setLoading(false);
-    console.log(data);
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError("");
+      await registerUser(
+        formState.username,
+        formState.email,
+        formState.password
+      );
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      setError(error.message);
+    }
   };
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <div>
+      <h1>{error}</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
