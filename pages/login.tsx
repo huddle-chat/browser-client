@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { AuthContext } from "@/context/auth";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "@/context/AuthContext";
 import { loginUser } from "@/api/auth";
 import { useRouter } from "next/router";
 
@@ -9,7 +9,7 @@ interface LoginFormState {
 }
 
 const Login = () => {
-  const { updateCurrentUser } = useContext(AuthContext);
+  const { updateUser } = useContext(AuthContext);
 
   const [formState, setFormState] = useState<LoginFormState>({
     email: "",
@@ -34,10 +34,13 @@ const Login = () => {
       const { data } = await loginUser(formState.email, formState.password);
       setLoading(false);
 
-      updateCurrentUser(data.user);
+      updateUser(data.user);
+
       localStorage.setItem("access_token", data.token);
 
-      router.push("/");
+      // const returnUrl = router.query.returnUrl || "/";
+
+      // router.push(returnUrl, null, { shallow: true });
     } catch (error: any) {
       setLoading(false);
       setError(error.message);

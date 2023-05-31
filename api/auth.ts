@@ -2,7 +2,7 @@ import { CurrentUser } from "@/@types/user";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
-interface RegisterResponse {
+interface AuthResponse {
   success: boolean;
   message: string;
   data: null;
@@ -12,7 +12,7 @@ export async function registerUser(
   username: string,
   email: string,
   password: string
-): Promise<RegisterResponse> {
+): Promise<AuthResponse> {
   const res = await fetch(`${BASE_URL}/auth/register`, {
     headers: {
       "Content-Type": "application/json",
@@ -79,6 +79,25 @@ interface FetchMeResponse {
 
 export async function fetchMe(token: string): Promise<FetchMeResponse> {
   const res = await fetch(`${BASE_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status !== 200) {
+    const error = await res.json();
+    console.log(error);
+    throw new Error(error.message);
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+export async function logout(token: string): Promise<AuthResponse> {
+  const res = await fetch(`${BASE_URL}/auth/logout`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
