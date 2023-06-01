@@ -98,7 +98,7 @@ export async function fetchMe(token: string): Promise<FetchMeResponse> {
 
 export async function logout(token: string): Promise<AuthResponse> {
   const res = await fetch(`${BASE_URL}/auth/logout`, {
-    method: "GET",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
