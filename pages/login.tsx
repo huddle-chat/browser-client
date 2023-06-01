@@ -35,7 +35,10 @@ const Login = () => {
       setLoading(false);
 
       updateUser(data.user);
-      setFormState({});
+      setFormState({
+        email: "",
+        password: "",
+      });
       router.push("/");
 
       localStorage.setItem("access_token", data.token);
