@@ -8,17 +8,16 @@ const RouteGuard = ({ children }: any) => {
   const [authorized, setAuthorized] = useState(false);
   const { user, authLoading } = useContext(AuthContext);
 
-  const protectedRoutes = {
-    "/protected": true,
+  const allowedRoutes = {
+    "/login": true,
+    "/": true,
+    "/register": true,
   };
 
-  console.log("rendering", authLoading, user);
-
   useEffect(() => {
-    console.log("useEffect firing");
     const authCheck = () => {
       const path = router.asPath;
-      if (!user && protectedRoutes[path]) {
+      if (!user && !allowedRoutes[path]) {
         if (!authLoading) {
           router.push("/login");
         }
