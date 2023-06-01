@@ -10,12 +10,17 @@ const Navbar = () => {
 
   const logoutUser = async () => {
     try {
-      await logout(token);
-      updateToken(null);
-      updateUser(null);
+      if (token) {
+        await logout(token);
+        updateToken(null);
+        updateUser(null);
+      }
       localStorage.removeItem("access_token");
       router.push("/");
     } catch (e: any) {
+      // TODO:
+      // create a universal error message component
+      // upon catching an error, error component will be updated to reflect the message
       console.log(e);
     }
   };
