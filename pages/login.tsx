@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { loginUser } from "@/api/auth";
 import { useRouter } from "next/router";
@@ -35,12 +35,10 @@ const Login = () => {
       setLoading(false);
 
       updateUser(data.user);
+      setFormState({});
+      router.push("/");
 
       localStorage.setItem("access_token", data.token);
-
-      // const returnUrl = router.query.returnUrl || "/";
-
-      // router.push(returnUrl, null, { shallow: true });
     } catch (error: any) {
       setLoading(false);
       setError(error.message);

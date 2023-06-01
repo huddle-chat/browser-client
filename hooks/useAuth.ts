@@ -5,19 +5,24 @@ import { fetchMe } from "@/api/auth";
 export const useAuth = () => {
   const [user, setUser] = useState<CurrentUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
       const accessToken = localStorage.getItem("access_token");
       try {
-        if (token && !user) {
+        setAuthLoading(true);
+        if (accessToken && !user) {
           const { data } = await fetchMe(accessToken);
           setUser(data.user);
           setToken(accessToken);
+          setAuthLoading(false);
         } else {
+          setAuthLoading(false);
           setUser(null);
         }
       } catch (error) {
+        setAuthLoading(false);
         setUser(null);
         setToken("");
       }
@@ -37,5 +42,6 @@ export const useAuth = () => {
     updateUser,
     token,
     updateToken,
+    authLoading,
   };
 };

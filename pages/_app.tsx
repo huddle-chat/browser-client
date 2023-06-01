@@ -1,18 +1,13 @@
 import Head from "next/head";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-// import AuthProvider from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
-import { useState, useEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import { CurrentUser } from "@/@types/user";
-import { fetchMe } from "@/api/auth";
-import { useRouter } from "next/router";
 import RouteGuard from "@/components/RouteGuard";
 import { useAuth } from "@/hooks/useAuth";
 
-export default function App({ Component, pageProps }: AppProps) {
-  const { user, updateUser, token, updateToken } = useAuth();
+export default function App({ Component }: AppProps) {
+  const { user, updateUser, token, updateToken, authLoading } = useAuth();
 
   return (
     <>
@@ -31,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
           updateUser,
           token,
           updateToken,
+          authLoading,
         }}
       >
         <Navbar />

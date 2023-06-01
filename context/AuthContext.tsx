@@ -7,6 +7,7 @@ interface AuthContext {
   updateUser: (user: CurrentUser) => void;
   token: string | null;
   updateToken: (token: string | null) => void;
+  authLoading: boolean;
 }
 
 export const AuthContext = createContext<AuthContext>({
@@ -14,4 +15,5 @@ export const AuthContext = createContext<AuthContext>({
   updateUser: (user: CurrentUser) => {},
   token: "",
   updateToken: (token: string | null) => {},
+  authLoading: true,
 });
