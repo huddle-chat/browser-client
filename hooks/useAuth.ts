@@ -17,9 +17,7 @@ export const useAuth = () => {
           const { data } = await fetchMe(accessToken);
           setUser(data.user);
           setToken(accessToken);
-          // setAuthLoading(false);
         } else {
-          // setAuthLoading(false);
           setUser(null);
         }
         setAuthLoading(false);
