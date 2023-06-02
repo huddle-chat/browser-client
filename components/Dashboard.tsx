@@ -11,16 +11,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     (async () => {
-      console.log("FIRING IN DASHBOARD");
       try {
-        console.log("the token in dashboard", token);
         if (token) {
           const { data } = await fetchGuilds(token);
-          console.log("the data", data);
+
           setGuilds(data.guilds);
           setLoading(false);
         } else {
-          console.log("no guilds for some reason");
           setGuilds([]);
           setLoading[false];
         }

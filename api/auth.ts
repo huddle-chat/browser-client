@@ -31,7 +31,7 @@ export async function registerUser(
   }
 
   const data = await res.json();
-  console.log(data);
+
   return data;
 }
 
@@ -65,7 +65,7 @@ export async function loginUser(
   }
 
   const data = await res.json();
-  console.log("data", data);
+
   return data;
 }
 
@@ -88,7 +88,7 @@ export async function fetchMe(token: string): Promise<FetchMeResponse> {
 
   if (res.status !== 200) {
     const error = await res.json();
-    console.log(error);
+
     throw new Error(error.message);
   }
 
@@ -107,7 +107,7 @@ export async function logout(token: string): Promise<AuthResponse> {
 
   if (res.status !== 200) {
     const error = await res.json();
-    console.log(error);
+
     throw new Error(error.message);
   }
 

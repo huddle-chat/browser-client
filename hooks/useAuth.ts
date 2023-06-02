@@ -8,7 +8,6 @@ export const useAuth = () => {
   const [authLoading, setAuthLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log("firing in useAuth");
     (async () => {
       const accessToken = localStorage.getItem("access_token");
       try {
