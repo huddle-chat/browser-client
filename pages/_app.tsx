@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import { AuthContext } from "@/context/AuthContext";
 import RouteGuard from "@/components/RouteGuard";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function App({ Component }: AppProps) {
   const { user, updateUser, token, updateToken, authLoading } = useAuth();

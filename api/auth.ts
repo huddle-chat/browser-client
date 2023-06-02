@@ -114,3 +114,24 @@ export async function logout(token: string): Promise<AuthResponse> {
   const data = await res.json();
   return data;
 }
+
+export async function verifyEmail(email: string, verificationCode: string) {
+  const res = await fetch(`${BASE_URL}/auth/verify`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({
+      email,
+      verificationCode,
+    }),
+  });
+
+  if (res.status !== 200) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  const data = await res.json();
+  return data;
+}

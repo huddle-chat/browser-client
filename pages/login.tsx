@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { loginUser } from "@/api/auth";
 import { useRouter } from "next/router";
+import VerificationForm from "@/components/VerificationForm";
 
 interface LoginFormState {
   email: string;
@@ -9,7 +10,7 @@ interface LoginFormState {
 }
 
 const Login = () => {
-  const { updateUser, updateToken } = useContext(AuthContext);
+  const { user, updateToken } = useContext(AuthContext);
 
   const [formState, setFormState] = useState<LoginFormState>({
     email: "",
@@ -40,7 +41,9 @@ const Login = () => {
         email: "",
         password: "",
       });
-      router.push("/");
+      router.push({
+        pathname: "/",
+      });
 
       localStorage.setItem("access_token", data.token);
     } catch (error: any) {
@@ -50,6 +53,8 @@ const Login = () => {
   };
 
   if (loading) return <div>Loading...</div>;
+
+  if (user && !user.isVerified) return <VerificationForm />;
 
   return (
     <div>

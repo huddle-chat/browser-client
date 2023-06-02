@@ -39,6 +39,14 @@ const RouteGuard = ({ children }: any) => {
     };
   }, [router, router.events, user]);
 
+  useEffect(() => {
+    if (!authLoading && user && !user.isVerified) {
+      if (router.asPath !== "/login") {
+        router.push("/login");
+      }
+    }
+  }, [user, router]);
+
   return authorized ? children : <div>Loading...</div>;
 };
 

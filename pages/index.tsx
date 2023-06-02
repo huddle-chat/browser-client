@@ -4,10 +4,10 @@ import Landing from "@/components/Landing";
 import Dashboard from "@/components/Dashboard";
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
-  console.log("user in the Index", user);
+  const { user, token } = useContext(AuthContext);
+
   // if not logged in, user should see default landing page at "/"
-  if (!user?.userId) {
+  if (!token) {
     return <Landing />;
   }
 
