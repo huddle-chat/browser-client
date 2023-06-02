@@ -27,7 +27,7 @@ export const useAuth = () => {
         setToken("");
       }
     })();
-  }, []);
+  }, [token]);
 
   const updateUser = (user: CurrentUser | null): void => {
     setUser(user);

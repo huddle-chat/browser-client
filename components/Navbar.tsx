@@ -12,11 +12,14 @@ const Navbar = () => {
     try {
       if (token) {
         await logout(token);
-        updateToken(null);
         updateUser(null);
+        updateToken(null);
+        localStorage.removeItem("access_token");
       }
-      localStorage.removeItem("access_token");
-      router.push("/");
+
+      if (router.asPath !== "/") {
+        router.push("/");
+      }
     } catch (e: any) {
       // TODO:
       // create a universal error message component

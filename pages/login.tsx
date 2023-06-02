@@ -9,7 +9,7 @@ interface LoginFormState {
 }
 
 const Login = () => {
-  const { updateUser } = useContext(AuthContext);
+  const { updateUser, updateToken } = useContext(AuthContext);
 
   const [formState, setFormState] = useState<LoginFormState>({
     email: "",
@@ -34,7 +34,8 @@ const Login = () => {
       const { data } = await loginUser(formState.email, formState.password);
       setLoading(false);
 
-      updateUser(data.user);
+      // updateUser(data.user);
+      updateToken(data.token);
       setFormState({
         email: "",
         password: "",
